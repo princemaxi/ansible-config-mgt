@@ -1,0 +1,62 @@
+---
+- name: update web and nfs servers (RHEL)
+  hosts: webservers, nfs
+  become: yes
+  tasks:
+    - name: ensure wireshark is at the latest version
+      yum:
+        name: wireshark
+        state: latest
+
+    - name: create a directory
+      file:
+        path: /opt/ansible_demo
+        state: directory
+        mode: '0755'
+
+    - name: create a file inside the directory
+      copy:
+        dest: /opt/ansible_demo/readme.txt
+        content: "This is a test file created by Ansible.\n"
+        mode: '0644'
+
+    - name: set timezone to Africa/Lagos
+      timezone:
+        name: Africa/Lagos
+
+    - name: run a shell script
+      shell: |
+        echo "Hello from Ansible at $(date)" >> /opt/ansible_demo/log.txt
+
+- name: update db and lb servers (Ubuntu)
+  hosts: db, lb
+  become: yes
+  tasks:
+    - name: Update apt repo
+      apt:
+        update_cache: yes
+
+    - name: ensure wireshark is at the latest version
+      apt:
+        name: wireshark
+        state: latest
+
+    - name: create a directory
+      file:
+        path: /opt/ansible_demo
+        state: directory
+        mode: '0755'
+
+    - name: create a file inside the directory
+      copy:
+        dest: /opt/ansible_demo/readme.txt
+        content: "This is a test file created by Ansible.\n"
+        mode: '0644'
+
+    - name: set timezone to Africa/Lagos
+      timezone:
+        name: Africa/Lagos
+
+    - name: run a shell script
+      shell: |
+        echo "Hello from Ansible at $(date)" >> /opt/ansible_demo/log.txt
