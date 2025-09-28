@@ -36,6 +36,11 @@
       apt:
         update_cache: yes
 
+    - name: Ensure required Python libraries are installed
+      apt:
+        name: python3-six
+        state: present
+
     - name: ensure wireshark is at the latest version
       apt:
         name: wireshark
