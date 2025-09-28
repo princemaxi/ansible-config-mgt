@@ -1,5 +1,37 @@
 # Ansible Configuration Management (Automating Projects 7–10)
 
+<details>
+<summary>Table of Contents</summary>
+
+- [Ansible Configuration Management (Automating Projects 7–10)](#ansible-configuration-management-automating-projects-710)
+  - [Ansible Client as a Jump Server (Bastion Host)](#ansible-client-as-a-jump-server-bastion-host)
+  - [Tasks Breakdown](#tasks-breakdown)
+    - [1. Install and Configure Ansible Client](#1-install-and-configure-ansible-client)
+    - [2. Create a Simple Ansible Playbook](#2-create-a-simple-ansible-playbook)
+- [Architectural Diagram](#architectural-diagram)
+- [Automation Steps](#automation-steps)
+  - [Why this pattern?](#why-this-pattern)
+  - [Step 1: Install \& Configure Ansible on an EC2 Jenkins (Jenkins-Ansible) Jump Server](#step-1-install--configure-ansible-on-an-ec2-jenkins-jenkins-ansible-jump-server)
+    - [1 — Update the EC2 Name tag (optional but helpful)](#1--update-the-ec2-name-tag-optional-but-helpful)
+    - [2 — Create GitHub repo ansible-config-mgt](#2--create-github-repo-ansible-config-mgt)
+    - [3 — Install Ansible on Jenkins-Ansible (control node)](#3--install-ansible-on-jenkins-ansible-control-node)
+    - [4 — Configure Jenkins build job to archive ansible-config-mgt repo](#4--configure-jenkins-build-job-to-archive-ansible-config-mgt-repo)
+  - [Step 2 — Prepare Your Development Environment Using Visual Studio Code](#step-2--prepare-your-development-environment-using-visual-studio-code)
+    - [Why This Step Matters](#why-this-step-matters)
+    - [Install Visual Studio Code](#install-visual-studio-code)
+    - [💡 Tip: Install recommended extensions:](#-tip-install-recommended-extensions)
+    - [Configure GitHub Integration in VS Code](#configure-github-integration-in-vs-code)
+    - [Clone Repo on Jenkins-Ansible Instance](#clone-repo-on-jenkins-ansible-instance)
+  - [Step 3 – Begin Ansible Development](#step-3--begin-ansible-development)
+  - [Step 4 – Setting Up an Ansible Inventory](#step-4--setting-up-an-ansible-inventory)
+  - [Step 5 – Create a Common Playbook](#step-5--create-a-common-playbook)
+  - [Step 6 – Update Git with the Latest Code](#step-6--update-git-with-the-latest-code)
+  - [Step 7 – Run the First Ansible Test](#step-7--run-the-first-ansible-test)
+- [🔧 Troubleshooting Guide – Ansible Configuration Management Project](#-troubleshooting-guide--ansible-configuration-management-project)
+    - [✅ Summary](#-summary)
+
+</details>
+
 In Projects 7 to 10, we manually performed several repetitive DevOps tasks such as provisioning virtual servers, installing and configuring software, and deploying web applications. While these steps built our foundational knowledge, they also highlighted how time-consuming and error-prone manual operations can be.
 
 This is where Ansible Configuration Management comes in. Ansible allows us to automate these tasks using simple declarative code written in YAML, ensuring consistency, repeatability, and efficiency across environments. With Ansible, you define what the system should look like, and Ansible takes care of how to achieve it.
@@ -64,6 +96,11 @@ Example (simplified):
 ```
 
 This playbook ensures all servers in the webservers group have Nginx installed, running, and enabled on startup — without logging into each one.
+
+---
+
+# Architectural Diagram
+![alt image](/images/45.png)
 
 ---
 
