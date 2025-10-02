@@ -51,7 +51,7 @@ A Jump Server (also called a Bastion Host) is a secure, intermediary server that
 
 This architecture significantly reduces the attack surface because external access is funneled through a single controlled point, improving monitoring and security compliance.
 
-In our setup, we configure the Ansible Client to act as the Jump Server. That means:
+In our setup, we configure the Ansible Client to act as the Jump Server(Bastion). That means:
 
 - We’ll install Ansible on the Jump Server.
 - The Jump Server will have SSH access to other servers (web, database, etc.).
