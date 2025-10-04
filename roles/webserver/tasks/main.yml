@@ -1,0 +1,36 @@
+---
+- name: Install Apache
+  become: true
+  yum:
+    name: httpd
+    state: present
+
+- name: Install Git
+  become: true
+  yum:
+    name: git
+    state: present
+
+- name: Clone the Tooling website
+  become: true
+  git:
+    repo: https://github.com/princemaxi/tooling.git 
+    dest: /var/www/html
+    force: yes
+
+- name: Copy website content one level up
+  become: true
+  command: cp -r /var/www/html/html/* /var/www/html/
+
+- name: Start and enable Apache service
+  become: true
+  service:
+    name: httpd
+    state: started
+    enabled: true
+
+- name: Remove redundant html directory
+  become: true
+  file:
+    path: /var/www/html/html
+    state: absent
