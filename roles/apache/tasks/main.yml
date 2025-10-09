@@ -1,0 +1,14 @@
+---
+- name: Install Apache
+  ansible.builtin.package:
+    name: "{{ 'apache2' if ansible_os_family == 'Debian' else 'httpd' }}"
+    state: present
+  when: enable_apache_lb
+
+- name: Start and enable Apache
+  ansible.builtin.service:
+    name: "{{ 'apache2' if ansible_os_family == 'Debian' else 'httpd' }}"
+    state: started
+    enabled: yes
+  when: enable_apache_lb
+

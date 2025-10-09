@@ -2,10 +2,19 @@
 - name: Include dynamic environment variables
   hosts: all
   tasks:
-    - include_vars: ../dynamic-assignments/env-vars.yml
+    - name: Load environment variables
+      ansible.builtin.include_vars:
+        file: ../dynamic-assignments/env-vars.yml
       tags:
         - always
 
+# Import common configuration for all servers
 - import_playbook: ../static-assignments/common.yml
+
+# Import UAT webserver configurations
 - import_playbook: ../static-assignments/uat-webservers.yml
+
+# Conditional load balancer assignment
+- import_playbook: ../static-assignments/loadbalancers.yml
+  when: load_balancer_is_required | default(false)
 
