@@ -1,12 +1,5 @@
 ---
-- name: Include dynamic environment variables
-  hosts: all
-  tasks:
-    - name: Load environment variables
-      ansible.builtin.include_vars:
-        file: ../dynamic-assignments/env-vars.yml
-      tags:
-        - always
+- import_playbook: ../dynamic-assignments/env-vars.yml
 
 # Import common configuration for all servers
 - import_playbook: ../static-assignments/common.yml
