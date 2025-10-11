@@ -2,6 +2,7 @@
 
 <details>
 <summary><h2>📘 Table of Contents</h2></summary>
+
 - [🔄 Ansible Dynamic Assignments(include) and Community Roles](#-ansible-dynamic-assignmentsinclude-and-community-roles)
   - [🔄 Ansible Dynamic Assignments (include) vs Static Assignments (import)](#-ansible-dynamic-assignments-include-vs-static-assignments-import)
     - [⚙️ Concept Overview](#️-concept-overview)
@@ -31,7 +32,9 @@
   - [🧱 Troubleshooting Tips](#-troubleshooting-tips)
   - [🏁 Commit \& Push to GitHub](#-commit--push-to-github)
   - [✅ Summary](#-summary-2)
+
 </details>
+
 
 In this phase of the project, we introduced dynamic assignments in Ansible using the include family of modules.
 
