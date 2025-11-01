@@ -26,7 +26,7 @@ pipeline {
         script {
           sh '''
             echo "Starting Ansible Deployment..."
-            cd ansible-config-mgt
+            ansible-config-mgt
             ansible-playbook -i inventory/dev.ini playbooks/site.yml
           '''
         }
