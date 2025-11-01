@@ -9,14 +9,16 @@ pipeline {
     stage('Cleanup Workspace') {
       steps {
         script {
-          sh 'echo "Cleaning up workspace..."'
-          sh 'rm -rf * || true'
+          echo "Cleaning up workspace..."
+          // Clean safely without removing Jenkinsfile or .git
+          sh 'find . -mindepth 1 ! -name ".git" ! -name "Jenkinsfile" -exec rm -rf {} + || true'
         }
       }
     }
 
     stage('Checkout SCM') {
       steps {
+        echo "Checking out main branch..."
         git branch: 'main', url: 'https://github.com/princemaxi/ansible-config-mgt'
       }
     }
@@ -24,9 +26,9 @@ pipeline {
     stage('Run Ansible Playbook') {
       steps {
         script {
+          echo "Starting Ansible Deployment..."
           sh '''
-            echo "Starting Ansible Deployment..."
-            ansible-config-mgt
+            ansible-config-mgt || exit 1
             ansible-playbook -i inventory/dev.ini playbooks/site.yml
           '''
         }
@@ -34,3 +36,4 @@ pipeline {
     }
   }
 }
+
