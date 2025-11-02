@@ -1,6 +1,20 @@
 pipeline {
   agent any
 
+  // 👇 Parameterized inputs
+  parameters {
+    string(
+      name: 'inventory',
+      defaultValue: 'dev',
+      description: 'Environment inventory to deploy configuration (e.g. dev, sit, pentest)'
+    )
+    string(
+      name: 'ansible_tags',
+      defaultValue: '',
+      description: 'Optional Ansible tag(s) to limit execution (e.g. webserver, db). Leave empty to run all.'
+    )
+  }
+
   environment {
     ANSIBLE_CONFIG = "${WORKSPACE}/deploy/.ansible.cfg"
   }
@@ -32,18 +46,14 @@ pipeline {
           echo "Starting Ansible Deployment..."
           sh '''
             echo "Using ansible config at: $ANSIBLE_CONFIG"
-
-            # Ensure community.general collection is available
-            if [ -f collections/requirements.yml ]; then
-              echo "Installing Ansible collections from requirements.yml..."
-              ansible-galaxy collection install -r collections/requirements.yml
+            echo "Deploying environment: ${inventory}"
+            if [ -z "${ansible_tags}" ]; then
+              echo "Running full playbook for ${inventory}..."
+              ansible-playbook -i inventory/${inventory}.ini playbooks/site.yml
             else
-              echo "Installing community.general collection..."
-              ansible-galaxy collection install community.general
+              echo "Running playbook for ${inventory} with tags: ${ansible_tags}"
+              ansible-playbook -i inventory/${inventory}.ini playbooks/site.yml --tags "${ansible_tags}"
             fi
-
-            # Run the main Ansible playbook
-            ansible-playbook -i inventory/dev.ini playbooks/site.yml
           '''
         }
       }
@@ -56,4 +66,5 @@ pipeline {
     }
   }
 }
+
 
