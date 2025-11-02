@@ -32,6 +32,17 @@ pipeline {
           echo "Starting Ansible Deployment..."
           sh '''
             echo "Using ansible config at: $ANSIBLE_CONFIG"
+
+            # Ensure community.general collection is available
+            if [ -f collections/requirements.yml ]; then
+              echo "Installing Ansible collections from requirements.yml..."
+              ansible-galaxy collection install -r collections/requirements.yml
+            else
+              echo "Installing community.general collection..."
+              ansible-galaxy collection install community.general
+            fi
+
+            # Run the main Ansible playbook
             ansible-playbook -i inventory/dev.ini playbooks/site.yml
           '''
         }
